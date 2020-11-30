@@ -46,7 +46,6 @@ public class ArrayStorage {
         System.out.println("Резуме не существует");
         return null;
     }
-
     public void delete(String uuid) {
         try {
             storage[getIndex(uuid)] = storage[size - 1];
