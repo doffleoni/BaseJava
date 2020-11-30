@@ -16,10 +16,8 @@ public class ArrayStorage {
     public void update(Resume resume) {
         if (resume != null) {
             int index = getIndex(resume.getUuid());
-            if (index != -1) {
                 storage[index] = resume;
             }
-        }
     }
 
     public void save(Resume resume) {
