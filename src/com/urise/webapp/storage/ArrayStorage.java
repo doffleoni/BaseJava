@@ -4,64 +4,56 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    private final Resume[] storage = new Resume[10_000];
     private int size = 0;
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
     public void update(Resume resume) {
         if (resume != null) {
-            if (getIndex(resume) != -1) {
-                storage[getIndex(resume)] = resume;
-                return;
+            int index = getIndex(resume.getUuid());
+            if (index != -1) {
+                storage[index] = resume;
             }
         }
     }
 
     public void save(Resume resume) {
+        String uuid = resume.getUuid();
         if (size != storage.length) {
-            if (getIndex(resume) == -1) {
+            if (getIndex(uuid) == -1) {
                 storage[size] = resume;
                 size++;
                 return;
             }
-            System.out.println("ERROR: Резуме " + resume.getUuid() + " уже существует");
+            System.out.println("ERROR: Резуме " + uuid + " уже существует");
             return;
         }
         System.out.println("Хранилище переполнено");
     }
 
     public Resume get(String uuid) {
-        if (getIndex(uuid) != -1) {
-            return storage[getIndex(uuid)];
+        int index = getIndex(uuid);
+        if (index != -1) {
+            return storage[index];
         }
-        System.out.println("Резуме не существует");
+        System.out.println("Резуме " + uuid + " не существует");
         return null;
     }
 
     public void delete(String uuid) {
-        if (getIndex(uuid) != -1) {
-            storage[getIndex(uuid)] = storage[size - 1];
+        int index = getIndex(uuid);
+        if (index != -1) {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
             return;
         }
-        System.out.println("Не возможно удалить. Резуме не существует");
-    }
-
-    private int getIndex(Resume resume) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(resume.getUuid()))
-                return i;
-        }
-        return -1;
+        System.out.println("Не возможно удалить.Резуме " + uuid + " не существует");
     }
 
     private int getIndex(String uuid) {
