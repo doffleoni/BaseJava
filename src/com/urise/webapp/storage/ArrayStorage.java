@@ -8,21 +8,20 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[4];
+    Resume[] storage = new Resume[10000];
     private int size = 0;
 
     public void clear() {
-        storage = Arrays.copyOf(new Resume[size], storage.length);
+        Arrays.fill(storage, null);
         size = 0;
     }
 
     public void update(Resume resume) {
-        try {
+        if (resume != null) {
             if (getIndex(resume) != -1) {
                 storage[getIndex(resume)] = resume;
                 return;
             }
-        } catch (NullPointerException e) {
         }
     }
 
@@ -46,14 +45,15 @@ public class ArrayStorage {
         System.out.println("Резуме не существует");
         return null;
     }
+
     public void delete(String uuid) {
-        try {
+        if (getIndex(uuid) != -1) {
             storage[getIndex(uuid)] = storage[size - 1];
             storage[size - 1] = null;
             size--;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Не возможно удалить. Резуме не существует");
+            return;
         }
+        System.out.println("Не возможно удалить. Резуме не существует");
     }
 
     private int getIndex(Resume resume) {
