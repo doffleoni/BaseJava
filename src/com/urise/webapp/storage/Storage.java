@@ -6,7 +6,7 @@ public interface Storage {
 
     void clear();
 
-    void update(Resume resume);
+    void update(String uuid);
 
     void save(Resume resume);
 
