@@ -39,12 +39,10 @@ public class MainArray {
                     break;
                 case "update":
                     r = new Resume();
-                    r.setUuid(uuid);
                     ARRAY_STORAGE.update(r);
                     break;
                 case "save":
                     r = new Resume();
-                    r.setUuid(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
