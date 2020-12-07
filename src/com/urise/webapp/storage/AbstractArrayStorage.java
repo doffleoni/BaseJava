@@ -10,7 +10,6 @@ import java.util.Arrays;
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10_000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
-    ;
     protected int size = 0;
 
     @Override
@@ -31,7 +30,6 @@ public abstract class AbstractArrayStorage implements Storage {
         }
         insertResume(index, resume);
         size++;
-
     }
 
     @Override
@@ -42,7 +40,6 @@ public abstract class AbstractArrayStorage implements Storage {
             throw new NotExistStorageException(uuid);
         }
         storage[index] = resume;
-        System.out.println(uuid);
     }
 
     @Override
@@ -64,10 +61,10 @@ public abstract class AbstractArrayStorage implements Storage {
     @Override
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
         }
-        throw new NotExistStorageException(uuid);
+        return storage[index];
     }
 
     @Override
