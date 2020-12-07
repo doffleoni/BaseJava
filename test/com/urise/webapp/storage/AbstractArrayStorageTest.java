@@ -52,8 +52,8 @@ public abstract class AbstractArrayStorageTest {
         for (int i = storage.size(); i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
             try {
                 storage.save(new Resume());
-            } catch (Exception e) {
-                Assert.fail();
+            } catch (StorageException e) {
+                Assert.fail("OverFlow ahead of time");
             }
         }
         storage.save(new Resume());
@@ -97,9 +97,8 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void getAll() {
         Resume[] actualResumes = storage.getAll();
+        Resume[] expectedResume = {new Resume(UUID_1), new Resume(UUID_2), new Resume(UUID_3)};
         Assert.assertEquals(3, actualResumes.length);
-        Assert.assertEquals(storage.get(UUID_1), actualResumes[0]);
-        Assert.assertEquals(storage.get(UUID_2), actualResumes[1]);
-        Assert.assertEquals(storage.get(UUID_3), actualResumes[2]);
+        Assert.assertArrayEquals(expectedResume, actualResumes);
     }
 }
