@@ -7,7 +7,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10_000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
@@ -43,27 +43,12 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        delResume(index);
-        storage[size - 1] = null;
-        size--;
-    }
-
-    @Override
     public int size() {
         return size;
     }
 
     @Override
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+    protected Resume getResume(int index) {
         return storage[index];
     }
 
@@ -72,9 +57,11 @@ public abstract class AbstractArrayStorage implements Storage {
         return Arrays.copyOf(storage, size);
     }
 
-    protected abstract int getIndex(String uuid);
+    @Override
+    protected void decreaseSize() {
+        storage[size - 1] = null;
+        size--;
+    }
 
     protected abstract void insertResume(int index, Resume resume);
-
-    protected abstract void delResume(int index);
 }
