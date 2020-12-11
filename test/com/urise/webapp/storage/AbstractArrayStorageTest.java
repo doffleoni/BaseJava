@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
-    Storage storage = super.storage;
+    private final Storage storage = super.storage;
 
     protected AbstractArrayStorageTest(Storage storage) {
         super(storage);
