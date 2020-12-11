@@ -6,16 +6,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
-    Storage storage;
+    Storage storage = super.storage;
 
     protected AbstractArrayStorageTest(Storage storage) {
         super(storage);
-        this.storage = storage;
     }
 
     @Test(expected = StorageException.class)
     public void saveOverFlow() {
-
         for (int i = storage.size(); i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
             try {
                 storage.save(new Resume());

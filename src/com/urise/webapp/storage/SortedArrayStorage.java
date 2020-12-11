@@ -17,10 +17,11 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         index = -index - 1;
         if (size - index >= 0) System.arraycopy(storage, index, storage, index + 1, size - index);
         storage[index] = resume;
+        size++;
     }
 
     @Override
-    protected void delResume(int index) {
+    protected void changeIndexResume(int index) {
         if (size - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - index);
     }
 }

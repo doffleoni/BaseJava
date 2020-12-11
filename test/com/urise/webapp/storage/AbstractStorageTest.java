@@ -12,7 +12,7 @@ public abstract class AbstractStorageTest {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private Storage storage;
+    protected Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
