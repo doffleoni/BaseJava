@@ -56,6 +56,7 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected void delResume(int index) {
         storageList.remove(index);
+        storageList.trimToSize();
     }
 
     @Override
