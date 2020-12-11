@@ -11,7 +11,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public void clear() {
-        storageList.removeAll(storageList);
+        storageList.clear();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storageList.toArray(new Resume[storageList.size()]);
+        return storageList.toArray(new Resume[0]);
     }
 
     @Override
