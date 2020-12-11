@@ -21,7 +21,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void changeIndexResume(int index) {
+    protected void shiftResume(int index) {
         if (size - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - index);
     }
 }

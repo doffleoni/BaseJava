@@ -2,23 +2,19 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        if (checkOverFlow()) {
-            throw new StorageException("Storage overflow", resume.getUuid());
-        }
         String uuid = resume.getUuid();
         int index = getIndex(uuid);
-        if (index >= 0) {
+        if (index < 0) {
+            saveResume(index, resume);
+        } else {
             throw new ExistStorageException(uuid);
         }
-        insertResume(index, resume);
-
     }
 
     @Override
@@ -52,12 +48,10 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void updateResume(int index, Resume resume);
 
-    protected abstract boolean checkOverFlow();
-
     protected abstract Resume getResume(int index);
 
     protected abstract void deleteResume(int index);
 
-    protected abstract void insertResume(int index, Resume resume);
+    protected abstract void saveResume(int index, Resume resume);
 
 }
