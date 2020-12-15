@@ -1,13 +1,14 @@
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.AbstractStorage;
-import com.urise.webapp.storage.ListStorage;
+import com.urise.webapp.storage.MapStorage;
 
 /**
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
     //private static final AbstractStorage ARRAY_STORAGE = new ArrayStorage();
-    private static final AbstractStorage ARRAY_STORAGE = new ListStorage();
+    //private static final AbstractStorage ARRAY_STORAGE = new ListStorage();
+    private static final AbstractStorage ARRAY_STORAGE = new MapStorage();
 
     // private static final AbstractStorage ARRAY_STORAGE = new SortedArrayStorage();
 
