@@ -32,6 +32,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
         insertResume(index, resume);
+        size++;
     }
 
     @Override
