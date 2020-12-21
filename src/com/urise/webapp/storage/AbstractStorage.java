@@ -8,50 +8,43 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        String uuid = resume.getUuid();
-        int index = getIndex(uuid);
-        if (index < 0) {
-            saveResume(index, resume);
-        } else {
-            throw new ExistStorageException(uuid);
+        if (getSearchKey(resume.getUuid())) {
+            throw new ExistStorageException(resume.getUuid());
         }
+        saveResume(resume);
     }
 
     @Override
     public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-        updateResume(index, resume);
+        checkSearchKey(resume.getUuid());
+        updateResume();
     }
 
     @Override
     public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return getResume(index);
+        checkSearchKey(uuid);
+        return getResume();
     }
 
     @Override
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        deleteResume(index);
+        checkSearchKey(uuid);
+        deleteResume();
     }
 
-    protected abstract int getIndex(String uuid);
+    private void checkSearchKey(String uuid) {
+        if (!getSearchKey(uuid)) {
+            throw new NotExistStorageException(uuid);
+        }
+    }
 
-    protected abstract void updateResume(int index, Resume resume);
+    protected abstract boolean getSearchKey(String uuid);
 
-    protected abstract Resume getResume(int index);
+    protected abstract void updateResume();
 
-    protected abstract void deleteResume(int index);
+    protected abstract Resume getResume();
 
-    protected abstract void saveResume(int index, Resume resume);
+    protected abstract void deleteResume();
 
+    protected abstract void saveResume(Resume resume);
 }
