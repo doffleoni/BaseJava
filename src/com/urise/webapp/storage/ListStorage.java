@@ -7,8 +7,6 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
     private final List<Resume> storageList = new ArrayList<>();
-    private int index = 0;
-    private Resume resume = null;
 
     @Override
     public void clear() {
@@ -31,28 +29,29 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume() {
-        return storageList.get(index);
+    protected Resume getResume(String uuid) {
+        return storageList.get(getIndex(uuid));
     }
 
     @Override
-    protected void updateResume() {
-        storageList.set(index, resume);
+    protected void updateResume(Resume resume) {
+        storageList.set(getIndex(resume.getUuid()), resume);
     }
 
     @Override
-    protected void deleteResume() {
-        storageList.remove(index);
+    protected void deleteResume(String uuid) {
+        storageList.remove(getIndex(uuid));
     }
 
     @Override
     protected boolean getSearchKey(String uuid) {
-        resume = new Resume(uuid);
-        index = storageList.indexOf(resume);
-        if (index < 0) {
+        if (getIndex(uuid)< 0) {
             return false;
         }
         return true;
+    }
+    private int getIndex(String uuid){
+        return storageList.indexOf(new Resume(uuid));
     }
 }
 
