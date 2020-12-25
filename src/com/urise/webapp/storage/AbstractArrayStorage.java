@@ -17,27 +17,29 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(String uuid) {
-        return storage[getIndex(uuid)];
-    }
-
-    @Override
-    protected void updateResume(Resume resume) {
-        storage[getIndex(resume.getUuid())] = resume;
-    }
-
-    @Override
-    protected void saveResume(Resume resume) {
+    protected void saveResume(Object searchKey, Resume resume) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        insertResume(getIndex(resume.getUuid()), resume);
+        insertResume((int) searchKey, resume);
         size++;
     }
 
     @Override
-    public int size() {
-        return size;
+    protected void updateResume(Object searchKey, Resume resume) {
+        storage[(int) searchKey] = resume;
+    }
+
+    @Override
+    protected void deleteResume(Object searchKey) {
+        shiftResume((int) searchKey);
+        storage[size - 1] = null;
+        size--;
+    }
+
+    @Override
+    protected Resume getResume(Object searchKey) {
+        return storage[(int) searchKey];
     }
 
     @Override
@@ -46,23 +48,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteResume(String uuid) {
-        shiftResume(getIndex(uuid));
-        storage[size - 1] = null;
-        size--;
+    public int size() {
+        return size;
     }
 
-    @Override
-    protected boolean getSearchKey(String uuid) {
-        if (getIndex(uuid) < 0) {
-            return false;
-        }
-        return true;
+    protected Object getSearchKey(String uuid) {
+        int searchKey = getIndex(uuid);
+        return searchKey;
     }
-
-    protected abstract int getIndex(String uuid);
 
     protected abstract void shiftResume(int index);
 
     protected abstract void insertResume(int index, Resume resume);
+
+    protected abstract int getIndex(String uuid);
 }

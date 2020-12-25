@@ -9,28 +9,28 @@ public class MapStorage extends AbstractStorage {
     private final Map<String, Resume> storageMap = new HashMap<>();
 
     @Override
-    protected void saveResume(Resume resume) {
-        storageMap.put(resume.getUuid(), resume);
-    }
-
-    @Override
-    protected void updateResume(Resume resume) {
-        storageMap.put(resume.getUuid(), resume);
-    }
-
-    @Override
-    protected Resume getResume(String uuid) {
-        return storageMap.get(uuid);
-    }
-
-    @Override
-    protected void deleteResume(String uuid) {
-        storageMap.remove(uuid);
-    }
-
-    @Override
     public void clear() {
         storageMap.clear();
+    }
+
+    @Override
+    protected void saveResume(Object searchKey, Resume resume) {
+        storageMap.put(resume.getUuid(), resume);
+    }
+
+    @Override
+    protected void updateResume(Object searchKey, Resume resume) {
+        storageMap.put((String) searchKey, resume);
+    }
+
+    @Override
+    protected void deleteResume(Object searchKey) {
+        storageMap.remove((String) searchKey);
+    }
+
+    @Override
+    protected Resume getResume(Object searchKey) {
+        return storageMap.get((String) searchKey);
     }
 
     @Override
@@ -44,11 +44,10 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean getSearchKey(String uuid) {
-        if (storageMap.get(uuid) == null) {
-            return false;
+    protected Object getSearchKey(String uuid) {
+        if (storageMap.get(uuid) != null) {
+            return uuid;
         }
-        return true;
+        return null;
     }
 }
-
