@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private Map<String, Resume> mapStorage = new HashMap<>();
+    private final Map<String, Resume> mapStorage = new HashMap<>();
 
     @Override
     protected Object getSearchKey(String uuid) {
@@ -30,12 +30,14 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object searchKey) {
-        mapStorage.remove(searchKey);
+        String sKey = (String) searchKey; // сделал, что бы убрать "suspicious call to mapStorage.remove"
+        mapStorage.remove(sKey);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return mapStorage.get((String) searchKey);
+        String sKey = (String) searchKey; // сделал, что бы убрать "suspicious call to mapStorage.get"
+        return mapStorage.get(sKey);
     }
 
     @Override
@@ -45,11 +47,9 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        String[] keys = new String[mapStorage.size()];
         Resume[] resumes = new Resume[mapStorage.size()];
         int index = 0;
         for (Map.Entry<String, Resume> mapEntry : mapStorage.entrySet()) {
-            keys[index] = mapEntry.getKey();
             resumes[index] = mapEntry.getValue();
             index++;
         }
