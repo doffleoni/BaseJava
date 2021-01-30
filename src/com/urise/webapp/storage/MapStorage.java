@@ -6,48 +6,58 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private final Map<String, Resume> storageMap = new HashMap<>();
+    private Map<String, Resume> mapStorage = new HashMap<>();
+
+    @Override
+    protected Object getSearchKey(String uuid) {
+        return (mapStorage.containsKey(uuid))?uuid: null;
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
+    }
+
+    @Override
+    protected void doSave(Resume resume, Object searchKey) {
+        mapStorage.put(resume.getUuid(), resume);
+    }
+
+    @Override
+    protected void doUpdate(Resume resume, Object searchKey) {
+        mapStorage.put((String)searchKey, resume);
+    }
+
+    @Override
+    protected void doDelete(Object searchKey) {
+        mapStorage.remove(searchKey);
+    }
+
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return mapStorage.get((String)searchKey);
+    }
 
     @Override
     public void clear() {
-        storageMap.clear();
-    }
-
-    @Override
-    protected void saveResume(Object searchKey, Resume resume) {
-        storageMap.put(resume.getUuid(), resume);
-    }
-
-    @Override
-    protected void updateResume(Object searchKey, Resume resume) {
-        storageMap.put((String) searchKey, resume);
-    }
-
-    @Override
-    protected void deleteResume(Object searchKey) {
-        storageMap.remove(searchKey);
-    }
-
-    @Override
-    protected Resume getResume(Object searchKey) {
-        return storageMap.get(searchKey);
+        mapStorage.clear();
     }
 
     @Override
     public Resume[] getAll() {
-        return storageMap.values().toArray(new Resume[size()]);
+        String[] keys = new String[mapStorage.size()];
+        Resume[] resumes = new Resume[mapStorage.size()];
+        int index = 0;
+        for(Map.Entry<String,Resume> mapEntry : mapStorage.entrySet()){
+            keys[index] = mapEntry.getKey();
+            resumes[index] = mapEntry.getValue();
+            index++;
+        }
+        return resumes;
     }
 
     @Override
     public int size() {
-        return storageMap.size();
-    }
-
-    @Override
-    protected Object getSearchKey(String uuid) {
-        if (storageMap.get(uuid) != null) {
-            return uuid;
-        }
-        return null;
+        return mapStorage.size();
     }
 }

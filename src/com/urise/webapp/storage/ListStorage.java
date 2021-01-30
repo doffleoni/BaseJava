@@ -1,54 +1,59 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    private final List<Resume> storageList = new ArrayList<>();
+    private List<Resume> list = new ArrayList<>();
 
     @Override
-    public void clear() {
-        storageList.clear();
+    protected Integer getSearchKey(String uuid) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return null;
     }
 
     @Override
-    public int size() {
-        return storageList.size();
+    protected boolean isExist(Object index) {
+        return (Integer) index != null;
+    }
+
+    @Override
+    protected void doSave(Resume resume, Object searchKey) {
+        list.add(resume);
+    }
+
+    @Override
+    protected void doUpdate(Resume resume, Object index) {
+        list.set((Integer) index, resume);
+    }
+
+    @Override
+    protected void doDelete(Object index) {
+        list.remove(((Integer) index).intValue());
+    }
+
+    @Override
+    protected Resume doGet(Object index) {
+        return list.get((Integer) index);
+    }
+
+    @Override
+    public void clear() {
+        list.clear();
     }
 
     @Override
     public Resume[] getAll() {
-        return storageList.toArray(new Resume[0]);
+        return list.toArray(new Resume[list.size()]);
     }
 
     @Override
-    protected void saveResume(Object searchKey, Resume resume) {
-        storageList.add(resume);
+    public int size() {
+        return list.size();
     }
-
-
-    @Override
-    protected Resume getResume(Object searchKey) {
-        return storageList.get((int) searchKey);
-    }
-
-    @Override
-    protected void updateResume(Object searchKey, Resume resume) {
-        storageList.set((int) searchKey, resume);
-    }
-
-    @Override
-    protected void deleteResume(Object searchKey) {
-        storageList.remove((int) searchKey);
-    }
-
-    @Override
-    protected Object getSearchKey(String uuid) {
-        Resume resume = new Resume(uuid);
-        return storageList.indexOf(resume);
-    }
-
 }
-
