@@ -21,7 +21,6 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public void update(Resume resume) {
         Object searchKey = getExistedSearchKey(resume.getUuid());
-        getExistedSearchKey(resume.getUuid());
         doUpdate(resume, searchKey);
     }
 

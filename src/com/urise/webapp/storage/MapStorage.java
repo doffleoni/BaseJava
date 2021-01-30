@@ -10,7 +10,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return (mapStorage.containsKey(uuid)) ? uuid : null;
+        return mapStorage.containsKey(uuid) ? uuid : null;
     }
 
     @Override
@@ -47,13 +47,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        Resume[] resumes = new Resume[mapStorage.size()];
-        int index = 0;
-        for (Map.Entry<String, Resume> mapEntry : mapStorage.entrySet()) {
-            resumes[index] = mapEntry.getValue();
-            index++;
-        }
-        return resumes;
+        return mapStorage.values().toArray(new Resume[0]);
     }
 
     @Override
