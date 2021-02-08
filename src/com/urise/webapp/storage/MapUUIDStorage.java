@@ -35,9 +35,8 @@ public class MapUUIDStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        String sKey = (String) searchKey; // сделал, что бы убрать "suspicious call to mapStorage.get"
-        return mapStorage.get(sKey);
+    protected Resume doGet(Object resume) {
+        return (Resume)resume;
     }
 
     @Override

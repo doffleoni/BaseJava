@@ -10,12 +10,12 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return mapStorage.containsKey(uuid) ? uuid : null;
+        return mapStorage.containsKey(uuid) ? mapStorage.get(uuid) : null;
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return searchKey != null;
+    protected boolean isExist(Object resume) {
+        return resume != null;
     }
 
     @Override
@@ -25,19 +25,17 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        mapStorage.put((String) searchKey, resume);
+        mapStorage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        String sKey = (String) searchKey; // сделал, что бы убрать "suspicious call to mapStorage.remove"
-        mapStorage.remove(sKey);
+    protected void doDelete(Object resume) {
+        mapStorage.remove(((Resume) resume).getUuid());
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        String sKey = (String) searchKey; // сделал, что бы убрать "suspicious call to mapStorage.get"
-        return mapStorage.get(sKey);
+    protected Resume doGet(Object resume) {
+        return mapStorage.get(((Resume) resume).getUuid());
     }
 
     @Override
