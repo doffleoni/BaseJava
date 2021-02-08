@@ -5,7 +5,7 @@ import com.urise.webapp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
+public class MapUUIDStorage extends AbstractStorage {
     private final Map<String, Resume> mapStorage = new HashMap<>();
 
     @Override
