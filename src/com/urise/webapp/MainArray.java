@@ -27,7 +27,7 @@ public class MainArray {
                 continue;
             }
             String param = null;
-            if (params.length > 3) {
+            if (params.length > 2) {
                 param = params[1].intern();
             }
             switch (params[0]) {
@@ -38,7 +38,7 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "update":
-                    r = new Resume(param ,params[2]);
+                    r = new Resume(param, params[2]);
                     ARRAY_STORAGE.update(r);
                     break;
                 case "save":

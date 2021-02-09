@@ -34,6 +34,7 @@ public class MapUUIDStorage extends AbstractStorage {
         mapStorage.remove(sKey);
     }
 
+    @SuppressWarnings("SuspiciousMethodCalls")
     @Override
     protected Resume doGet(Object searchKey) {
         return mapStorage.get(searchKey);
