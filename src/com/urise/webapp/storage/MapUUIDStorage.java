@@ -35,8 +35,8 @@ public class MapUUIDStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume doGet(Object resume) {
-        return (Resume)resume;
+    protected Resume doGet(Object searchKey) {
+        return mapStorage.get(searchKey);
     }
 
     @Override
