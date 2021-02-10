@@ -2,7 +2,9 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapResumeStorage extends AbstractStorage {
@@ -35,7 +37,7 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object resume) {
-        return mapStorage.get(((Resume) resume).getUuid());
+        return (Resume) resume;
     }
 
     @Override
@@ -44,8 +46,8 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return mapStorage.values().toArray(new Resume[0]);
+    public List<Resume> getAll() {
+        return new ArrayList<Resume>(mapStorage.values());
     }
 
     @Override
