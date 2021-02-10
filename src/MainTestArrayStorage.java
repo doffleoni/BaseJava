@@ -2,8 +2,6 @@ import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.AbstractArrayStorage;
 import com.urise.webapp.storage.ArrayStorage;
 
-import java.util.UUID;
-
 /**
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
@@ -13,9 +11,9 @@ public class MainTestArrayStorage {
     //private static final AbstractArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
-        final Resume r1 = new Resume("UUID1","Иванов Иван Иванович");
-        final Resume r2 = new Resume("UUID3","Алексеев Алексей Алексеевич");
-        final Resume r3 = new Resume("UUID2","Петров Иван Алексеевич");
+        final Resume r1 = new Resume("UUID1", "Иванов Иван Иванович");
+        final Resume r2 = new Resume("UUID3", "Алексеев Алексей Алексеевич");
+        final Resume r3 = new Resume("UUID2", "Петров Иван Алексеевич");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
