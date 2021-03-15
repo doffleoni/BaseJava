@@ -1,6 +1,6 @@
 package com.urise.webapp.model;
 
-import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.UUID;
 
 /**
@@ -10,16 +10,26 @@ public class Resume implements Comparable<Resume> {
     // Unique identifier
     private final String uuid;
     private final String fullName;
+    private EnumMap<ContactType, String> contacts = new EnumMap<ContactType, String>(ContactType.class);
+    private EnumMap<SectionType, Section> sections = new EnumMap<SectionType, Section>(SectionType.class);
 
     public Resume(String fullName) {
-        this(UUID.randomUUID().toString(),fullName);
+        this(UUID.randomUUID().toString(), fullName);
 
     }
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
+        for (SectionType ct : SectionType.values()) {
+            if (ct.equals(SectionType.EXPERIENCE) || ct.equals(SectionType.EDUCATION)) {
+                sections.put(ct, new ListExpirience());
+            } else {
+                sections.put(ct, new ListPersonalQualities());
+            }
+        }
     }
+
 
     public String getUuid() {
         return uuid;
@@ -49,7 +59,7 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return uuid + " "+ fullName;
+        return uuid + " " + fullName;
     }
 
     @Override
@@ -57,5 +67,33 @@ public class Resume implements Comparable<Resume> {
         return uuid.compareTo(o.uuid);
     }
 
+    public String getContact(ContactType contactType) {
+        return contacts.get(contactType);
+    }
 
+    public void setContact(ContactType contactType, String value) {
+        contacts.put(contactType, value);
+    }
+
+    public void printAllContacts() {
+        for (ContactType ct : contacts.keySet()) {
+            System.out.println(ct.getTitle().toString() + " " + contacts.get(ct));
+        }
+    }
+
+    public Section getSection(SectionType sectionType) {
+        return sections.get(sectionType);
+    }
+
+    public void setSection(SectionType sectionType, String value) {
+        Section sec = getSection(sectionType);
+        sec.setSectionItem(value);
+        sections.put(sectionType, sec);
+    }
+
+    public void printAllSections() {
+        for (SectionType st : sections.keySet()) {
+            System.out.println(st.getTitle().toString() + "\n " + sections.get(st).toString());
+        }
+    }
 }
