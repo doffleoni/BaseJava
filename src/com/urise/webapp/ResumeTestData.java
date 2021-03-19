@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ResumeTestData {
+    public static void printLine(){
+        System.out.println(Stream.generate(() -> "_").limit(50).collect(Collectors.joining()));
+    }
     public static void main(String[] args) {
         Resume res = new Resume("Dcho Biden");
         res.setContact(ContactType.PHONE, "+7(909)654-54-43");
@@ -39,11 +42,17 @@ public class ResumeTestData {
         res.setSection(SectionType.EDUCATION, "Coursera, 2013-03, 2013-05,\"Functional Programming Principles in Scala\" by Martin Odersky");
         res.setSection(SectionType.EDUCATION, "Luxoft, 2011-03, 2011-04, Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"");
         res.setSection(SectionType.EDUCATION, "Siemens AG, 2005-01, 2005-04, 3 месяца обучения мобильным IN сетям (Берлин)");
-        System.out.println(res.getFullName());
-        res.printAllContacts();
-        System.out.println(Stream.generate(() -> "_").limit(50).collect(Collectors.joining()));
-        res.printAllSections();
 
+        printLine();
+        System.out.println(res.getFullName());
+        printLine();
+        for (ContactType ct : res.getContacts().keySet()) {
+            System.out.println(ct.getTitle().toString()+ res.getContact(ct).toString());
+        }
+        printLine();
+        for (SectionType st : res.getSections().keySet()) {
+            System.out.println(st.getTitle().toString() + "\n " + res.getSection(st).toString());
+        }
     }
 }
 

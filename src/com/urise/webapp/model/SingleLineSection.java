@@ -1,9 +1,9 @@
 package com.urise.webapp.model;
 
-public class PersonalQualities {
+public class SingleLineSection {
     private String description;
 
-    public PersonalQualities(String description) {
+    public SingleLineSection(String description) {
         this.description = description;
     }
 
@@ -16,7 +16,7 @@ public class PersonalQualities {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PersonalQualities that = (PersonalQualities) o;
+        SingleLineSection that = (SingleLineSection) o;
 
         return description != null ? description.equals(that.description) : that.description == null;
     }

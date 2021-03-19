@@ -1,6 +1,8 @@
 package com.urise.webapp.model;
 
 import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -10,12 +12,11 @@ public class Resume implements Comparable<Resume> {
     // Unique identifier
     private final String uuid;
     private final String fullName;
-    private EnumMap<ContactType, String> contacts = new EnumMap<ContactType, String>(ContactType.class);
-    private EnumMap<SectionType, Section> sections = new EnumMap<SectionType, Section>(SectionType.class);
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
-
     }
 
     public Resume(String uuid, String fullName) {
@@ -23,13 +24,12 @@ public class Resume implements Comparable<Resume> {
         this.fullName = fullName;
         for (SectionType ct : SectionType.values()) {
             if (ct.equals(SectionType.EXPERIENCE) || ct.equals(SectionType.EDUCATION)) {
-                sections.put(ct, new ListExpirience());
+                sections.put(ct, new Organization());
             } else {
-                sections.put(ct, new ListPersonalQualities());
+                sections.put(ct, new BulletedListSection());
             }
         }
     }
-
 
     public String getUuid() {
         return uuid;
@@ -39,22 +39,30 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Resume resume = (Resume) o;
-
-        if (!uuid.equals(resume.uuid)) return false;
-        return fullName.equals(resume.fullName);
+    public String getContact(ContactType contactType) {
+        return contacts.get(contactType);
     }
 
-    @Override
-    public int hashCode() {
-        int result = uuid.hashCode();
-        result = 31 * result + fullName.hashCode();
-        return result;
+    public void setContact(ContactType contactType, String value) {
+        contacts.put(contactType, value);
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Section getSection(SectionType sectionType) {
+        return sections.get(sectionType);
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
+    public void setSection(SectionType sectionType, String value) {
+        Section sec = getSection(sectionType);
+        sec.setSectionItem(value);
+        sections.put(sectionType, sec);
     }
 
     @Override
@@ -67,33 +75,16 @@ public class Resume implements Comparable<Resume> {
         return uuid.compareTo(o.uuid);
     }
 
-    public String getContact(ContactType contactType) {
-        return contacts.get(contactType);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resume resume = (Resume) o;
+        return uuid.equals(resume.uuid) && fullName.equals(resume.fullName) && Objects.equals(contacts, resume.contacts) && Objects.equals(sections, resume.sections);
     }
 
-    public void setContact(ContactType contactType, String value) {
-        contacts.put(contactType, value);
-    }
-
-    public void printAllContacts() {
-        for (ContactType ct : contacts.keySet()) {
-            System.out.println(ct.getTitle().toString() + " " + contacts.get(ct));
-        }
-    }
-
-    public Section getSection(SectionType sectionType) {
-        return sections.get(sectionType);
-    }
-
-    public void setSection(SectionType sectionType, String value) {
-        Section sec = getSection(sectionType);
-        sec.setSectionItem(value);
-        sections.put(sectionType, sec);
-    }
-
-    public void printAllSections() {
-        for (SectionType st : sections.keySet()) {
-            System.out.println(st.getTitle().toString() + "\n " + sections.get(st).toString());
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, fullName, contacts, sections);
     }
 }

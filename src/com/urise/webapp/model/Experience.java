@@ -2,12 +2,12 @@ package com.urise.webapp.model;
 
 import java.time.YearMonth;
 
-public class Expirience {
+public class Experience {
     private String location;
     private String description;
     private YearMonth startDate, finishDate;
 
-    public Expirience(String location, YearMonth startDate, YearMonth finishDate, String description) {
+    public Experience(String location, YearMonth startDate, YearMonth finishDate, String description) {
         this.location = location;
         this.description = description;
         this.startDate = startDate;

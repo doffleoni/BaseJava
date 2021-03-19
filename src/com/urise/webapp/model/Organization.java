@@ -2,19 +2,19 @@ package com.urise.webapp.model;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
-public class ListExpirience implements Section {
-    List<Expirience> list;
+public class Organization implements Section {
+    Collection<Experience> experiences;
 
-    public ListExpirience() {
-        this.list = new ArrayList<Expirience>();
+    public Organization() {
+        experiences = new ArrayList<>();
     }
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer();
-        for (Expirience ex : list) {
+        for (Experience ex : experiences) {
             sb.append(ex.toString()).append("\n");
         }
         return sb.toString();
@@ -23,6 +23,6 @@ public class ListExpirience implements Section {
     @Override
     public void setSectionItem(String value) {
         String[] sa = value.split(",", 4);
-        list.add(new Expirience(sa[0], YearMonth.parse(sa[1].trim()), YearMonth.parse(sa[2].trim()), sa[3]));
+        experiences.add(new Experience(sa[0], YearMonth.parse(sa[1].trim()), YearMonth.parse(sa[2].trim()), sa[3]));
     }
 }
