@@ -2,10 +2,10 @@ package com.urise.webapp.model;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class Organization implements Section {
-    Collection<Experience> experiences;
+    List<Experience> experiences;
 
     public Organization() {
         experiences = new ArrayList<>();

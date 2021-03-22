@@ -2,9 +2,10 @@ package com.urise.webapp.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class BulletedListSection implements Section {
-    private Collection<SingleLineSection> list;
+    private List<String> list;
 
     public BulletedListSection() {
         list = new ArrayList<>();
@@ -12,13 +13,13 @@ public class BulletedListSection implements Section {
 
     @Override
     public void setSectionItem(String value) {
-        list.add(new SingleLineSection(value));
+        list.add(new SingleLineSection(value).toString());
     }
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer();
-        for (SingleLineSection ps : list) {
+        for (String ps : list) {
             sb.append(" - ").append(ps.toString());
         }
         return sb.toString();

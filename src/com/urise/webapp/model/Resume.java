@@ -22,13 +22,6 @@ public class Resume implements Comparable<Resume> {
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
-        for (SectionType ct : SectionType.values()) {
-            if (ct.equals(SectionType.EXPERIENCE) || ct.equals(SectionType.EDUCATION)) {
-                sections.put(ct, new Organization());
-            } else {
-                sections.put(ct, new BulletedListSection());
-            }
-        }
     }
 
     public String getUuid() {
@@ -52,6 +45,13 @@ public class Resume implements Comparable<Resume> {
     }
 
     public Section getSection(SectionType sectionType) {
+        if (sections.get(sectionType) == null) {
+            if (sectionType.equals(SectionType.EXPERIENCE) || sectionType.equals(SectionType.EDUCATION)) {
+                sections.put(sectionType, new Organization());
+            } else {
+                sections.put(sectionType, new BulletedListSection());
+            }
+        }
         return sections.get(sectionType);
     }
 
